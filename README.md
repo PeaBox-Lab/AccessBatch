@@ -1,36 +1,56 @@
 # AccessBatch
 
-> Accessibility testing in batches. Evidence developers can act on.
+AccessBatch is a small-team website accessibility batch scanner. It crawls same-origin pages, renders each page in Chromium with Playwright, runs axe-core WCAG-tagged automated checks, captures full-page screenshots, and produces a developer evidence bundle.
 
-AccessBatch is an open-source website accessibility scanner designed for small development teams.
-
-Give AccessBatch a website URL and it can crawl the site, render pages in Chromium, run automated accessibility checks, capture screenshots, and package the findings into developer-friendly evidence bundles.
-
-## Why AccessBatch?
-
-Accessibility testing often becomes a collection of one-off browser checks, spreadsheets, screenshots, and manually assembled evidence.
-
-AccessBatch makes the automated part repeatable:
-
-URL → Crawl → Render → Scan → Capture → Report → Evidence Bundle
-
-## Core Features
-
-- Crawl same-origin website pages
-- Set a maximum number of pages per scan
-- Render pages using Playwright and Chromium
-- Run axe-core accessibility checks
-- Target WCAG A/AA tagged automated rules
-- Capture full-page screenshots
-- Record DOM selectors and failing HTML
-- Generate JSON findings
-- Generate standalone HTML reports
-- Package evidence into downloadable ZIP bundles
-- Maintain local scan history with SQLite
-- Run through a lightweight FastAPI web interface
+## MVP
+- Same-origin crawl, with 1–100 page limit
+- Playwright Chromium rendering
+- axe-core automated WCAG A/AA tagged checks
+- Full-page PNG evidence
+- JSON findings
+- Standalone HTML report
+- ZIP issue bundle
+- FastAPI web UI and scan-status API
+- SQLite scan history
 
 ## Important
+Automated accessibility checks detect only some accessibility problems. AccessBatch reports findings as **automated evidence**, not a certificate of WCAG conformance.
 
-AccessBatch provides automated accessibility findings and evidence.
+## Install
 
-Automated testing cannot identify every accessibility issue, so AccessBatch results should not be treated as proof or certification of WCAG conformance.
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+playwright install chromium
+uvicorn app.main:app --reload
+```
+
+On Windows PowerShell, activation is optional:
+
+```powershell
+py -m venv C:\venvs\accessbatch
+C:\venvs\accessbatch\Scripts\python.exe -m pip install -r requirements.txt
+C:\venvs\accessbatch\Scripts\python.exe -m playwright install chromium
+C:\venvs\accessbatch\Scripts\python.exe -m uvicorn app.main:app --reload
+```
+
+Open the local Uvicorn address shown in the console.
+
+## GitHub direction
+Suggested repository metadata:
+- Name: `accessbatch`
+- Description: `Batch website accessibility scans with Playwright, axe-core, screenshots and developer evidence bundles.`
+- Topics: `accessibility`, `wcag`, `axe-core`, `playwright`, `fastapi`, `a11y`, `website-audit`, `python`
+- License suggestion: Apache-2.0 for an open core, or keep private until the hosted model is decided.
+
+## Next product increments
+1. Sitemap.xml discovery and include/exclude path rules
+2. Baseline/suppression file for accepted findings
+3. Duplicate finding clustering and issue fingerprints
+4. Per-rule evidence pages with cropped element screenshot
+5. CI exit thresholds by impact
+6. Authenticated scans/save login-state
+7. Scheduled hosted scans and regression history
+8. SARIF/GitHub Issues/Jira export
+9. Manual-review checklist alongside automated findings
